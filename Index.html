@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adioz Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #dff3ff, #a4d4ff);
+      color: #000;
+      text-align: center;
+      min-height: 100vh;
+    }
+    .header {
+      background-color: #007acc;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .auth-buttons button {
+      margin: 0 5px;
+      background-color: white;
+      color: #007acc;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .auth-section {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+    }
+    .auth-section input {
+      padding: 5px;
+      margin: 5px;
+    }
+    .welcome {
+      background-color: #ffffffcc;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px;
+      font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .icon-container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .icon {
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+      width: 200px;
+      margin: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+    .section {
+      margin-top: 20px;
+      display: none;
+    }
+    .quantity-controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 20px;
+    }
+    button {
+      padding: 5px 15px;
+      font-size: 18px;
+      border: none;
+      background-color: #0099ff;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .paragraph {
+      margin: 30px 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .pet-button {
+      margin-top: 30px;
+    }
+    .pet-list {
+      margin-top: 10px;
+      display: none;
+    }
+    .pet-item {
+      background-color: #ffffffcc;
+      margin: 10px auto;
+      width: 80%;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+    .trust-message {
+      margin-top: 20px;
+      background: #e0ffe0;
+      padding: 15px;
+      border-radius: 10px;
+      color: #0a4f00;
+      font-weight: bold;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>Adioz Shop</div>
+    <div class="auth-buttons">
+      <button onclick="showAuth('signin')">Sign In</button>
+      <button onclick="showAuth('signup')">Create Account</button>
+    </div>
+  </div>
+
+  <div id="signin" class="auth-section">
+    <input type="text" id="signin-username" placeholder="Username">
+    <input type="password" id="signin-password" placeholder="Password">
+    <button onclick="saveCredentials('signin')">Sign In</button>
+  </div>
+
+  <div id="signup" class="auth-section">
+    <input type="text" id="signup-username" placeholder="Create Username">
+    <input type="password" id="signup-password" placeholder="Create Password">
+    <button onclick="saveCredentials('signup')">Create Account</button>
+  </div>
+
+  <div class="welcome">👋 Welcome to <strong>Adioz Shop</strong> — the best place for Grow a Garden items!</div>
+
+  <div class="paragraph">
+    🌱 Grow a Garden is an amazing Roblox experience where you can raise rare pets, collect tokens, and trade with others. At Adioz Shop, we offer a wide range of pets, gift cards, and top-up options. Contact us for unbeatable prices!
+  </div>
+
+  <div class="icon-container">
+    <div class="icon" onclick="toggleSection('gift')">🎁<br />Gift Card</div>
+    <div class="icon" onclick="toggleSection('topup')">💻⬆️<br />Top Up</div>
+    <div class="icon" onclick="window.open('https://www.tiktok.com/@adiozshop', '_blank')">💬<br />TikTok Contact</div>
+  </div>
+
+  <div class="section" id="gift">
+    <h2>Buy a Gift Card</h2>
+    <select onchange="selectPresetValue('gift')">
+      <option value="15">15</option>
+      <option value="25" selected>25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="120">120</option>
+      <option value="150">150</option>
+      <option value="300">300</option>
+      <option value="500">500</option>
+    </select>
+    <div class="quantity-controls">
+      <button onclick="changeQuantity('gift', -1)">-</button>
+      <span id="gift-quantity">1</span>
+      <button onclick="changeQuantity('gift', 1)">+</button>
+    </div>
+  </div>
+
+  <div class="section" id="topup">
+    <h2>Top Up</h2>
+    <select onchange="selectPresetValue('topup')">
+      <option value="100">100</option>
+      <option value="Randomly">Randomly</option>
+      <option value="4950">4950</option>
+    </select>
+    <div class="quantity-controls">
+      <button onclick="changeQuantity('topup', -1)">-</button>
+      <span id="topup-quantity">1</span>
+      <button onclick="changeQuantity('topup', 1)">+</button>
+    </div>
+  </div>
+
+  <div class="pet-button">
+    <button onclick="togglePetList()">🐾 Want to Buy Cheap Pet?</button>
+    <div class="pet-list" id="pet-list"></div>
+    <div class="trust-message">
+      🌟 We are 100% trusted! At Adioz Shop, we believe in giving every Grow a Garden fan the chance to own their dream pets at the best prices. We are known for fast service, friendly support, and guaranteed deliveries. Whether you're a beginner or a pro collector, we have something for everyone. Join hundreds of happy players who trust Adioz Shop every day!
+    </div>
+  </div>
+
+  <script>
+    function showAuth(id) {
+      document.getElementById('signin').style.display = 'none';
+      document.getElementById('signup').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function saveCredentials(type) {
+      const username = document.getElementById(`${type}-username`).value;
+      const password = document.getElementById(`${type}-password`).value;
+      localStorage.setItem('gag_username', username);
+      localStorage.setItem('gag_password', password);
+      alert('Saved!');
+    }
+
+    function toggleSection(id) {
+      document.getElementById('gift').style.display = 'none';
+      document.getElementById('topup').style.display = 'none';
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function changeQuantity(type, delta) {
+      const quantityEl = document.getElementById(`${type}-quantity`);
+      let quantity = parseInt(quantityEl.innerText);
+      quantity = Math.max(1, quantity + delta);
+      quantityEl.innerText = quantity;
+    }
+
+    function selectPresetValue(type) {
+      const quantityEl = document.getElementById(`${type}-quantity`);
+      quantityEl.innerText = 1;
+    }
+
+    const pets = [
+      '774T - Rs 100',
+      'Cooked Owl 🦉 - Rs 100',
+      'Blood Owl 🩸🦉 - Rs 100',
+      'Night Owl 🌙🦉 - Rs 100',
+      'Moon Cat 🌕🐱 - Rs 100',
+      'Moth 🦋 - Rs 100',
+      'Praying Mantis 🦗 - Rs 100',
+      'Turtle 🐢 - Rs 100',
+      'Bear Bee 🐻🐝 - Rs 100',
+      'Scarlet Macow 🦜 - Rs 100',
+      'Capybara 🐹 - Rs 150',
+      'Red Fox 🦊 - Rs 200',
+      'Chicken Zombie 🧟🐔 - Rs 200',
+      'Queen Bee 👑🐝 - Rs 350',
+      'Raccoon 🦝 - Rs 900',
+      'Dragonfly 🐉🪰 - Rs 600',
+      'Disco Bee 🪩🐝 - Rs 850',
+      'Butterfly 🦋 - Rs 650',
+      'Mimic Octopus 🐙 - Rs 450',
+      'Fenec Fox 🦊 - Rs 1200',
+      'Trex 🦖 - Rs 750',
+      'Brono 🦕 - Rs 300'
+    ];
+
+    function togglePetList() {
+      const list = document.getElementById('pet-list');
+      if (list.style.display === 'block') {
+        list.style.display = 'none';
+        list.innerHTML = '';
+      } else {
+        list.style.display = 'block';
+        list.innerHTML = pets.map(pet => `<div class="pet-item">${pet}</div>`).join('');
+      }
+    }
+  </script>
+</body>
+</html>
